@@ -6,8 +6,15 @@ from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image, KeepTogether
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
-EXPORTS_DIR = Path("data/exports")
-EXPORTS_DIR.mkdir(parents=True, exist_ok=True)
+if os.getenv("VERCEL"):
+    EXPORTS_DIR = Path("/tmp/exports")
+else:
+    EXPORTS_DIR = Path("data/exports")
+
+try:
+    EXPORTS_DIR.mkdir(parents=True, exist_ok=True)
+except Exception as e:
+    print(f"[PDF] Warning: Could not create exports directory: {e}")
 
 def generate_project_pdf(project: dict) -> Path:
     """

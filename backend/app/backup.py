@@ -4,11 +4,19 @@ import shutil
 from pathlib import Path
 from datetime import datetime
 
-BACKUP_DIR = Path("data/backups")
-BACKUP_DIR.mkdir(parents=True, exist_ok=True)
+if os.getenv("VERCEL"):
+    BACKUP_DIR = Path("/tmp/backups")
+    DB_PATH = Path("/tmp/database.db")
+    MEDIA_DIR = Path("/tmp/media")
+else:
+    BACKUP_DIR = Path("data/backups")
+    DB_PATH = Path("data/database.db")
+    MEDIA_DIR = Path("data/media")
 
-DB_PATH = Path("data/database.db")
-MEDIA_DIR = Path("data/media")
+try:
+    BACKUP_DIR.mkdir(parents=True, exist_ok=True)
+except Exception as e:
+    print(f"[BACKUP] Warning: Could not create backup directory: {e}")
 
 def create_backup_zip() -> Path:
     """
