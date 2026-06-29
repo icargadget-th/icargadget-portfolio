@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+pillow
+reportlab
+python-multipart
+requests
+python-dotenv

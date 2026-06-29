@@ -1,0 +1,26 @@
+# Python Virtual Environment
+.venv/
+venv/
+ENV/
+__pycache__/
+*.pyc
+
+# Local Node.js binaries
+.node/
+
+# Frontend dependencies and builds
+frontend/node_modules/
+frontend/dist/
+frontend/.eslintcache
+
+# Local database, uploads, backups, exports
+data/
+backend/data/
+*.db
+*.zip
+*.pdf
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
