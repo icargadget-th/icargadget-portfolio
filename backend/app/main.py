@@ -36,9 +36,17 @@ from backend.app.pdf import generate_project_pdf
 from backend.app.backup import create_backup_zip, restore_backup_zip
 
 # Create directories
-Path("data/media").mkdir(parents=True, exist_ok=True)
-Path("data/exports").mkdir(parents=True, exist_ok=True)
-Path("data/backups").mkdir(parents=True, exist_ok=True)
+if os.getenv("VERCEL"):
+    Path("/tmp/media").mkdir(parents=True, exist_ok=True)
+    Path("/tmp/exports").mkdir(parents=True, exist_ok=True)
+    Path("/tmp/backups").mkdir(parents=True, exist_ok=True)
+else:
+    try:
+        Path("data/media").mkdir(parents=True, exist_ok=True)
+        Path("data/exports").mkdir(parents=True, exist_ok=True)
+        Path("data/backups").mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        print(f"Warning: Could not create directories: {e}")
 
 # Initialize database
 init_db()

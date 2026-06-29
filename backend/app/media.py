@@ -6,12 +6,19 @@ from pathlib import Path
 from PIL import Image
 from backend.app.database import get_all_media_paths, is_supabase_enabled, SUPABASE_URL, SUPABASE_KEY
 
-MEDIA_DIR = Path("data/media")
-TEMP_DIR = Path("data/media_temp")
+if os.getenv("VERCEL"):
+    MEDIA_DIR = Path("/tmp/media")
+    TEMP_DIR = Path("/tmp/media_temp")
+else:
+    MEDIA_DIR = Path("data/media")
+    TEMP_DIR = Path("data/media_temp")
 
 # Ensure directories exist
-MEDIA_DIR.mkdir(parents=True, exist_ok=True)
-TEMP_DIR.mkdir(parents=True, exist_ok=True)
+try:
+    MEDIA_DIR.mkdir(parents=True, exist_ok=True)
+    TEMP_DIR.mkdir(parents=True, exist_ok=True)
+except Exception as e:
+    print(f"[MEDIA] Warning: Could not create directories: {e}")
 
 def optimize_image(source_path: Path, target_path: Path, max_width: int = 1200, quality: int = 80):
     """Resizes and compresses an image, converting it to WebP format to save space."""

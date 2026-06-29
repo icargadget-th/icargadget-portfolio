@@ -8,7 +8,10 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-DATABASE_DIR = Path("data")
+if os.getenv("VERCEL"):
+    DATABASE_DIR = Path("/tmp")
+else:
+    DATABASE_DIR = Path("data")
 DATABASE_PATH = DATABASE_DIR / "database.db"
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
